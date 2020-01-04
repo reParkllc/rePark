@@ -12,6 +12,10 @@ import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
+//TODO: Don't have an account? Should route to LogIn.
+//TODO: Not handled Forgot Password?
+//TODO: After deciding on the design pattern change the avatar for Sign In.
+//TODO: Endpoints are not provided Post Request is not being made.
 
 const useStyles = makeStyles(theme => ({
     paper: {
