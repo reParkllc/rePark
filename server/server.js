@@ -1,8 +1,25 @@
 const path = require('path');
 const express = require('express');
+const mongoose = require("mongoose");
+
+
+const db = require('./config/keys').MONGO_URI
+console.log(db)
+
 
 const app = express();
 const PORT = 3000;
+
+//connect to mongoDB
+console.log('running server.js')
+mongoose
+  .connect(db, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    dbName: "rePark"
+  })
+  .then(() => console.log("Connected to Mongo DB...."))
+  .catch(err => console.log(err));
 
 
 /**
