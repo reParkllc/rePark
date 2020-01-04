@@ -9,10 +9,12 @@ module.exports = {
   devtool: 'inline-source-map',
   devServer: {
     contentBase: path.resolve(__dirname, 'build'),
-    hot: true,
     publicPath: '/build/',
     proxy: {
-      '/': 'http://localhost:3000'
+      '/': {
+        target: 'http://localhost:3000',
+        secure: false,
+      }
     },
     filename: 'bundle.js',
   },
@@ -26,7 +28,8 @@ module.exports = {
   mode: process.env.NODE_ENV,
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'build')
+    path: path.resolve(__dirname, 'build'),
+    publicPath: "/build/",
   },
   module: {
     rules: [
