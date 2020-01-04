@@ -1,3 +1,4 @@
+'use strict'; // so Mongo would not sort the coordinate numbers
 const mongoose = require("mongoose");
 
 const MONGO_URI =
@@ -25,8 +26,22 @@ const userSchema = new Schema({
   }
 });
 
-const User = mongoose.model("user", userSchema);
+const User = mongoose.model('user', userSchema);
+
+const parkingSchema = new Schema({
+  spot: {
+    coordinate: { type: [Number, Number], required: true },
+    available_time: { type: Date, default: Date.now },
+    user_id: {
+      type: Schema.Types.ObjectId, 
+      ref: 'user'
+    }
+  }
+});
+
+const Parking = mongoose.model('parking', parkingSchema);
 
 module.exports = {
-  User
+  User,
+  Parking
 };
