@@ -37,7 +37,7 @@ if (process.env.NODE_ENV === 'production') {
  * root
  */
 // respond with main app
-app.get('/*', userController.verifyUser, 
+app.get('/*', /* userController.verifyUser, */
   (req, res) => res.status(200).sendFile(path.resolve(__dirname, '../client/index.html')));
 
 
@@ -48,8 +48,8 @@ app.get('/signup', (req, res) => {
   res.render('./../client/signup', {error: null});
 });
 
-app.post('/signup', userController.createUser, 
-          sessionController.startSession, 
+app.post('/signup', /* userController.createUser, 
+          sessionController.startSession, */
           (req, res) => {
   res.redirect('/index.html');
 })
@@ -58,8 +58,8 @@ app.post('/signup', userController.createUser,
 /**
  * login
  */
- app.post('/login', userController.verifyUser,
-          sessionController.startSession,
+ app.post('/login', /* userController.verifyUser,
+          sessionController.startSession, */
           (req, res) => {
             res.redirect('/index.html')
           });
@@ -68,8 +68,8 @@ app.post('/signup', userController.createUser,
 /**
  * Authorized routes
  */
-app.get('/index', sessionController.isLoggedIn,
-        userController.getAllUsers,
+app.get('/index', /* sessionController.isLoggedIn,
+        userController.getAllUsers, */
         (req, res) => {
           res.render('./../client/index.html', {});
         })
