@@ -19,7 +19,7 @@ function Copyright() {
       {'Copyright © '}
       {new Date().getFullYear()}
       {', '}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="inherit" href="www.repark.io">
         reParkLLC
       </Link>{' '}
     </Typography>
@@ -40,10 +40,15 @@ const useStyles = makeStyles(theme => ({
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(3),
+    padding: '15px'
+
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  text: {
+    marginTop: '10px'
+  }
 }));
 
 export default function SignUpInitial() {
@@ -68,6 +73,7 @@ export default function SignUpInitial() {
                 variant="outlined"
                 required
                 fullWidth
+                className={classes.text}
                 id="name"
                 label="Name"
                 autoFocus
@@ -78,6 +84,7 @@ export default function SignUpInitial() {
                 variant="outlined"
                 required
                 fullWidth
+                className={classes.text}
                 id="phoneNumber"
                 label="Phone Number"
                 name="phoneNumber"
@@ -89,6 +96,7 @@ export default function SignUpInitial() {
                 variant="outlined"
                 required
                 fullWidth
+                className={classes.text}
                 name="password"
                 label="Password"
                 type="password"
