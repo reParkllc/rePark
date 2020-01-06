@@ -45,12 +45,10 @@ const useStyles = makeStyles(theme => ({
 
 export default function SignUpInitial(props) {
   const classes = useStyles();
-  const { isLoggedIn, setIsLoggedIn,
-    phone, setPhone,
-    name, setName
+  const { user, updateUser
   } = useContext(UserContext);
-  const handleSubmit = () => {
-
+  const handleSubmit = (e) => {
+    e.preventDefault();
   }
   return (
     <Container component="main" maxWidth="xs">
