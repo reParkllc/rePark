@@ -1,11 +1,9 @@
 const { User } = require('../models/userModels');
-const cookieController = require('./cookieController')
 
 const carController = {
   updateUser(req, res, next){
 		console.log('running car controller', res.locals.user)
 		const { car_make, car_model, car_color } = req.body.car;
-		// console.log('update object', {...res.locals.user._doc, car: {car_make, car_model, car_color}})
 		User.findOneAndUpdate({_id: res.locals.user._doc._id}, 
 													 { ...res.locals.user._doc, car: {car_make, car_model, car_color}}, 
 													 { new: true }, (err, updatedDoc) => {
@@ -16,7 +14,6 @@ const carController = {
 																message: { err: 'An error occurred' },
 															});
 														 };
-														 console.log('helllllo')
 														 res.locals.user.car = updatedDoc;
 														 return next();
 													 })

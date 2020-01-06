@@ -1,7 +1,6 @@
 const path = require('path');
 const { User } = require('../models/userModels');
 
-
 const userController = {
 
 //Create user controller

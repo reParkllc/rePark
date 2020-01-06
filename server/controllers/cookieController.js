@@ -2,8 +2,6 @@ const { User } = require('../models/userModels');
 const cookieController = {
     
     setSSIDCookie (req, res, next) {
-        console.log('inside the SSID')
-        console.log('SSIC', res.locals.user.name)
         User.find({name: res.locals.user.name})
         .exec()
         .then(user => {

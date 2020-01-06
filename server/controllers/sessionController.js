@@ -3,10 +3,8 @@ const { Session } = require('../models/sessionModels');
 
 const sessionController = {
     isLoggedIn(req, res, next){
-        console.log('isLoggedin', res.locals)
         Session.find({cookieId: res.locals.user._id}, (err, session) => {
             if (err) {
-                // res.status(401).json({'Error': err});
                 return next({
                     log: 'ERROR: sessionController: isLoggedIn error',
                     status: 400,
@@ -18,10 +16,9 @@ const sessionController = {
     },
     
     startSession(req, res, next){
-        // console.log('cookieID', req.cookies)
         Session.create({cookieId: res.locals.user._id + 'a'}, (err, session) => {
             console.log(session)
-            if (session) {console.log('session!!!!!', session);
+            if (session) {
                 return next();}
             if (err) {
                 return next({
