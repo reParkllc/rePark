@@ -2,9 +2,7 @@ import React from 'react';
 import { AutoRotatingCarousel, Slide } from 'material-auto-rotating-carousel'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { green400, green600, blue400, blue600, red400, red600 } from '@material-ui/core/colors'
-import { useTheme } from '@material-ui/core/styles'
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import {Link} from 'react-router-dom'
+
 
 const RtOnboard = props => {
     const theme = useTheme();
