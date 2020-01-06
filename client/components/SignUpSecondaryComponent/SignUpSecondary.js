@@ -9,10 +9,10 @@ import {
 
 import { makeStyles } from '@material-ui/core/styles';
 import DriveEtaIcon from '@material-ui/icons/DriveEta';
-import Copyright from '../../components/Copyright';
-import CarMake from '../../components/SignUpDropDowns/CarMake';
-import CarModel from '../../components/SignUpDropDowns/CarModel';
-import CarColor from '../../components/SignUpDropDowns/CarColor';
+import Copyright from '../CopyrightComponent/Copyright';
+import CarMake from '../SignUpDropDownComponents/CarMake';
+import CarModel from '../SignUpDropDownComponents/CarModel';
+import CarColor from '../SignUpDropDownComponents/CarColor';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
