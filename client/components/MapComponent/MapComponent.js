@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'; // using React hooks
 import ReactMapGL, {Marker, Popup, GeolocateControl} from 'react-map-gl'; // using mapbox api
-
+import Geocoder from 'react-map-gl-geocoder';
+// import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import marker from './marker.png'; // image of map pin. Will need to find one with transparent background
 import { mongo } from 'mongoose';
 
@@ -34,10 +35,22 @@ const MapComponent = () => {
     }
   }, []);
 
+  const mapRef = React.createRef();
+
+  const handleGeocoderViewportChange = (viewport) => {
+    const geocoderDefaultOverrides = { transitionDuration: 1000 };
+    return setViewport({
+      ...viewport,
+      ...geocoderDefaultOverrides
+    });
+  }
+
   return (
     <div>
+      <link href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.css' rel='stylesheet' />
       <div id="mapbox" style={{margin: '5vw', textAlign: 'center'}}>
         <ReactMapGL // ReactMapGL is the entire map element
+          ref={mapRef}
           {...viewport}
           mapboxApiAccessToken="pk.eyJ1IjoieWE4NTA1MDkiLCJhIjoiY2s1MGFwd2h5MGszMzNqbmVhZWZqMmI4MyJ9.1X0GGZVNGDyxCfacWadlgw" // my mapbox account token that allows us to use mapbox api
           mapStyle="mapbox://styles/ya850509/ck51pt5z70dot1cqj6aix253v" // this style is made from my mapbox account
@@ -45,6 +58,11 @@ const MapComponent = () => {
             setViewport(viewport);
           }} // this enables users to drag and move the map by setting viewport again whenever there's a change
         >
+          <Geocoder
+            mapRef={mapRef}
+            onViewportChange={handleGeocoderViewportChange}
+            mapboxApiAccessToken="pk.eyJ1IjoieWE4NTA1MDkiLCJhIjoiY2s1MGFwd2h5MGszMzNqbmVhZWZqMmI4MyJ9.1X0GGZVNGDyxCfacWadlgw"
+          />
           <GeolocateControl
             positionOptions={{enableHighAccuracy: true}}
             trackUserLocation={true}
