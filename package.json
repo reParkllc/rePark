@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@material-ui/core": "^4.8.2",
+    "cookie-parser": "^1.4.4",
     "@material-ui/icons": "^4.5.1",
     "express": "^4.17.1",
     "file-loader": "^5.0.2",

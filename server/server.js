@@ -1,11 +1,15 @@
 const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser')
 
 
 //importing routers
-const login = require('./router/loginRouter')
-const signup = require('./router/signupRouter')
+const login = require('./router/loginRouter.js');
+const signup = require('./router/signupRouter.js');
+
+//importing controller
+const sessionController = require('./controllers/sessionController');
 
 const db = require('./config/keys').MONGO_URI
 const app = express();
@@ -27,7 +31,7 @@ mongoose
  */
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
-
+app.use(cookieParser());
 /**
  * handle requests for static files
  */
@@ -55,21 +59,23 @@ app.get('/*',
   (req, res) => {res.status(200).sendFile(path.resolve(__dirname, '../client/index.html'))} );
 
 /**
- * login
- */
-// respond with login router
-app.use('/login', login);
-
-/**
  * sign up
  */
 // respond with signup router
 app.use('/signup', signup);
 
 /**
+ * login
+ */
+// respond with login router
+app.use('/login', login);
+
+
+
+/**
  * Authorized routes
  */
-app.get('/index',
+app.get('/index', sessionController.isLoggedIn,
         (req, res) => {
           res.render('./../client/index.html', {});
         })
