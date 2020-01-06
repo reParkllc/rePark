@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const sessionSchema = new Schema({
-    cookieId: { type: String, required: true},
+    cookieId: { type: String, required: true, unique: true},
     createdAt: { type: Date, default: Date.now }
 });
 
