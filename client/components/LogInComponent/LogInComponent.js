@@ -17,6 +17,7 @@ import { Link } from 'react-router-dom';
 //TODO: After deciding on the design pattern change the avatar for Sign In.
 //TODO: Endpoints are not provided Post Request is not being made.
 //TODO: Add 10px marginTop to TextFields
+//TODO: Add route handler for forgot password
 
 const useStyles = makeStyles(theme => ({
   paper: {
