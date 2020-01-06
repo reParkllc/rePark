@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-
+import React, { useState, useContext } from 'react';
+import { UserContext } from '../../contexts/UserContext';
 import {
   Avatar,
   Button, CssBaseline, Link as LinkMatui,
@@ -41,10 +41,20 @@ const useStyles = makeStyles(theme => ({
 
 export default function SignUpSecondary() {
   const classes = useStyles();
-
+  const { isLoggedIn, setIsLoggedIn,
+    SetCarColor,
+    SetCarMake,
+    SetCarModel, } = useContext(UserContext);
   const [carColor, setCarColor] = useState('');
   const [carMake, setCarMake] = useState('');
   const [carModel, setCarModel] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    SetCarMake(carMake)
+    SetCarModel(carModel)
+    SetCarColor(carColor)
+  }
 
   const handleCarMakeChange = (e) => {
     setCarModel('');
@@ -85,7 +95,7 @@ export default function SignUpSecondary() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={(e) => e.preventDefault()}
+            onClick={handleSubmit}
           >
             Let's Park!
           </Button>

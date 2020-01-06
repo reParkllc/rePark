@@ -56,7 +56,9 @@ const useStyles = makeStyles(theme => ({
 
 export default function SignUpInitial() {
   const classes = useStyles();
+  const handleSubmit = () => {
 
+  }
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
