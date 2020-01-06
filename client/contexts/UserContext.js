@@ -4,14 +4,14 @@ export const UserContext = createContext();
 
 export function UserProvider(props) {
   const [user, setUserInfo] = useState({
-    userID: null,
-    name: null,
+    id: null,
     isLoggedIn: false,
+    name: null,
     phone: null,
     car: {
-      car_color: '',
+      car_make: '',
       car_model: '',
-      car_brand: '',
+      car_color: '',
     }
   });
 

@@ -45,17 +45,21 @@ export default function SignUpSecondary(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // fetch('/signup', {
-    //   method: 'POST',
-    //   body: JSON.stringify({
-    //     car: {
-    //       car_brand: user.car.car_brand,
-    //       car_model: user.car.car_model,
-    //       car_color: user.car.car_color,
-    //     }
-    //   }),
-    //   headers: { 'Content-Type': 'application/json' },
-    // });
+    fetch(`/signup2?userid=${user.id}`, {
+      method: 'POST',
+      body: JSON.stringify({
+        car: {
+          car_make: user.car.car_make,
+          car_model: user.car.car_model,
+          car_color: user.car.car_color,
+        }
+      }),
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then(res => res.json())
+      .then(() => {
+
+      })
   }
 
   const handleCarMakeChange = (e) => {
@@ -63,14 +67,14 @@ export default function SignUpSecondary(props) {
       car: {
         car_color: '',
         car_model: '',
-        car_brand: e.target.value
+        car_make: e.target.value
       }
     });
   }
   const handleCarModelChange = (e) => {
     updateUser({
       car: {
-        car_brand: user.car.car_brand,
+        ...user.car,
         car_color: '',
         car_model: e.target.value
       }
@@ -79,8 +83,7 @@ export default function SignUpSecondary(props) {
   const handleCarColorChange = (e) => {
     updateUser({
       car: {
-        car_brand: user.car.car_brand,
-        car_model: user.car.car_model,
+        ...user.car,
         car_color: e.target.value
       }
     });
@@ -98,10 +101,10 @@ export default function SignUpSecondary(props) {
         </Typography>
         <form className={classes.form} noValidate>
           <Grid item xs={12}>
-            <CarMake fullWidth handleChange={handleCarMakeChange} carMake={user.car.car_brand} />
+            <CarMake fullWidth handleChange={handleCarMakeChange} carMake={user.car.car_make} />
           </Grid>
           <Grid item xs={12}>
-            <CarModel fullWidth handleChange={handleCarModelChange} carMake={user.car.car_brand} carModel={user.car.car_model} />
+            <CarModel fullWidth handleChange={handleCarModelChange} carMake={user.car.car_make} carModel={user.car.car_model} />
           </Grid>
           <Grid item xs={12}>
             <CarColor fullWidth handleChange={handleCarColorChange} carColor={user.car.car_color} />
