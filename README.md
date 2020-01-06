@@ -1,6 +1,8 @@
 # rePark
 
 ### Environments
+*Install Dependencies:* `npm install`
+
 #### Dev
 *Start Server:* `npm run dev`  
 
