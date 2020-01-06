@@ -5,18 +5,19 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
+import { Link as LinkMatui } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
+import { Link } from 'react-router-dom';
 //TODO: Don't have an account? Should route to LogIn.
 //TODO: Not handled Forgot Password?
 //TODO: After deciding on the design pattern change the avatar for Sign In.
 //TODO: Endpoints are not provided Post Request is not being made.
 //TODO: Add 10px marginTop to TextFields
+//TODO: Add route handler for forgot password
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -95,12 +96,12 @@ const LogInComponent = props => {
                     </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
+              <LinkMatui href="#" variant="body2">
                 Forgot password?
-                            </Link>
+                            </LinkMatui>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link to={`/signup`}>
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
