@@ -9,6 +9,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import OnboardingComponent from "./components/OnboardingComponent/OnboardingComponent";
 
 //TODO: Add "/" route and corresponding component as a splash page for users who are not logged in
 //TODO: Add a route for the actual app once a user has logged in
@@ -37,6 +38,12 @@ const App = () => {
           path="/signup2"
           exact
           component={SignUpSecondary}
+        />
+        //TODO: I inserted a temporary path actually another prop should be passed as isLogged in
+        <Route
+            path="/welcome"
+            exact
+            component={OnboardingComponent}
         />
       </Switch>
     </Router>
