@@ -10,6 +10,10 @@ import {
   Link
 } from "react-router-dom";
 
+//TODO: Add "/" route and corresponding component as a splash page for users who are not logged in
+//TODO: Add a route for the actual app once a user has logged in
+//TODO: Add a route for the users profile page
+
 const App = () => {
   return (
     <Router>
