@@ -9,9 +9,10 @@ const cookieController = require('../controllers/cookieController');
 
 router.post('/', userController.verifyUser,
 						cookieController.setSSIDCookie,
+						sessionController.isLoggedIn,
             sessionController.startSession,
             (req, res) => {
-              res.status(200).json({"message": "login Success..."})
+              return res.status(200).json({"message": "login Success..."})
             });
 //send back a json object "login success"!!!!
 
