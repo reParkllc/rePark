@@ -13,7 +13,7 @@ import Copyright from '../../components/Copyright';
 import CarMake from '../../components/SignUpDropDowns/CarMake';
 import CarModel from '../../components/SignUpDropDowns/CarModel';
 import CarColor from '../../components/SignUpDropDowns/CarColor';
-
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -91,9 +91,9 @@ export default function SignUpSecondary() {
           </Button>
           <Grid container justify="center">
             <Grid item>
-              <LinkMatui href="#" variant="body2">
+              <Link to={`/login`}>
                 Already have an account? Sign in
-              </LinkMatui>
+              </Link>
             </Grid>
           </Grid>
         </form>
