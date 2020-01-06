@@ -17,6 +17,7 @@
     "cookie-parser": "^1.4.4",
     "express": "^4.17.1",
     "file-loader": "^5.0.2",
+    "material-auto-rotating-carousel": "^3.0.2",
     "mongoose": "^5.8.4",
     "node-fetch": "^2.6.0",
     "react": "^16.12.0",
