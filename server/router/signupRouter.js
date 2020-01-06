@@ -11,6 +11,6 @@ router.post('/', userController.createUser,
 						sessionController.startSession,
 						(req, res) => {
 							res.status(200).json(res.locals.user)
-						})
+						});
 
 module.exports = router;

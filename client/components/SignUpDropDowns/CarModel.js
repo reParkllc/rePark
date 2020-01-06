@@ -36,7 +36,8 @@ const MenuProps = {
 export default function CarModel({ carModel, handleChange, carMake }) {
   const classes = useStyles();
   let options = '';
-  if (carMake !== '') {
+  if (carMake !== '' && carMake !== undefined) {
+    console.log('carmake:', carMake)
     const carMakeObj = carMakeData.filter((carMakeObj) => (carMakeObj.label === carMake))[0];
     options = carMakeObj.models.map((model, idx) => <MenuItem key={`make${idx}`} value={model.label}>{model.label}</MenuItem>);
   }

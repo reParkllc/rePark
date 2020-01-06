@@ -1,12 +1,13 @@
 const path = require('path');
-const User = require('../models/userModels');
+const { User } = require('../models/userModels');
 
 
 const userController = {
 
 //Create user controller
   createUser (req, res, next) {
-	const { name, phone, pass, car } = req.query; 
+	console.log('req.body: ', req.body);
+	const { name, phone, pass, car } = req.body;
 	const newUser = {
 		name,
 		phone,
@@ -14,34 +15,45 @@ const userController = {
 		car
 	}
 
-  User.create(newUser, (err, userDoc) => {
-		if (err) {
-			return res.sendStatus(404);
-		}
+	User.create(newUser)
+	.then(userDoc => {
+		console.log('userDoc: ', userDoc)
 		res.locals.user = userDoc;
-		next();
+		return next();
+	})
+	.catch(err => {
+		return next({
+				log: 'Express error handler caught user create error',
+				status: 400,
+				message: { err: 'An error occurred' },
+			});
 	});
 },
 
   //verify user controller
   verifyUser (req, res, next) {
-    const { name, pass } = req.query;
-    User.findOne({ name }, (err, userDoc) => {
-		if (err) {
+    const { name, pass } = req.body;
+		User.findOne({ name })
+		.exec()
+		.then(userDoc => {
+      console.log('motherfucka', userDoc)
+			if (userDoc.name === null) {
+        res.status(401).json({ err })
+				return next();
+			}
+			if (userDoc.pass === req.body.pass) {
+				res.locals.user = userDoc;
+				return next();
+			}
+		})
+		.catch(err => {
 			res.status(401).json({'Error': err});
-			next();
-		}
-      	if(user === null) {
-			res.status(401).json({err})
-			next();
-      	}
-      	if(user.pass === req.body.pass){
-			res.locals.user = userDoc;
-			next();
-		}
-		}
-	) 
+			return next({
+				log: 'ERROR: userController verifyUser error',
+				status: 400,
+				message: { err: 'An error occurred' },
+			});
+		});
+	}
 }
-}
-
 module.exports = userController;
