@@ -14,6 +14,5 @@ router.post('/', userController.verifyUser,
             (req, res) => {
               return res.status(200).json({"message": "login Success..."})
             });
-//send back a json object "login success"!!!!
 
 module.exports = router;

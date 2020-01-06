@@ -9,9 +9,9 @@ const userSchema = new Schema({
   phone: { type: Number, required: true, unique: true},
   pass: { type: String, required: true },
   car: {
-    car_brand: { type: String, required: true },
-    car_model: { type: String, required: true },
-    car_color: { type: String, required: true }
+    car_make: { type: String},
+    car_model: { type: String},
+    car_color: { type: String}
   }
 });
 

@@ -3,25 +3,23 @@ const { Session } = require('../models/sessionModels');
 
 const sessionController = {
     isLoggedIn(req, res, next){
-        console.log('reioi', req.locals.user)
-        Session.find({cookieId: req.locals.user._id}, (err, session) => {
-
+        console.log('isLoggedin', res.locals)
+        Session.find({cookieId: res.locals.user._id}, (err, session) => {
             if (err) {
-                res.status(401).json({'Error': err});
+                // res.status(401).json({'Error': err});
                 return next({
                     log: 'ERROR: sessionController: isLoggedIn error',
                     status: 400,
                     message: { err: 'An error occurred' },
                 });
-            } else {
-                return next();
-            }
+            } 
+            return next();
         })
     },
     
     startSession(req, res, next){
-        // console.log('asdkhsadf', res.locals.user._id)
-        Session.create({cookieId: 8787878947}, (err, session) => {
+        // console.log('cookieID', req.cookies)
+        Session.create({cookieId: res.locals.user._id + 'a'}, (err, session) => {
             console.log(session)
             if (session) {console.log('session!!!!!', session);
                 return next();}
