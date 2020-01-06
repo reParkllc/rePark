@@ -2,7 +2,7 @@ import React from 'react';
 import LogInComponent from './components/LogInComponent/LogInComponent';
 import SignUpInitial from './containers/SignUp/SignUpInitial';
 import SignUpSecondary from './containers/SignUp/SignUpSecondary';
-
+import MapComponent from './components/MapComponent/MapComponent';
 import {
   BrowserRouter as Router,
   Switch,
@@ -18,6 +18,11 @@ const App = () => {
   return (
     <Router>
       <Switch>
+        <Route
+          path="/"
+          exact
+          component={MapComponent}
+        />
         <Route
           path="/login"
           exact
