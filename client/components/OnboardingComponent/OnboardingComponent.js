@@ -9,7 +9,6 @@ import {Link} from 'react-router-dom'
 const OnboardingComponent = props => {
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down('sm'));
-    console.log('MATCHES',matches);
     return (
         <div>
             <CssBaseline/>
