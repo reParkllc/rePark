@@ -4,8 +4,8 @@ import RtOnboard from "./components/RtOnboard/RtOnboard";
 
 const App = () => {
   return (
-    <div>
-        <RtOnboard/>
+    <div>This is a test	    <div>
+        <LogInComponent/>	        <RtOnboard/>
     </div>
   )
 };
