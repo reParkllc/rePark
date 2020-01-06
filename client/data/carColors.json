@@ -1,0 +1,62 @@
+[
+  {
+    "value": "Black",
+    "label": "Black"
+  },
+  {
+    "value": "Blue",
+    "label": "Blue"
+  },
+  {
+    "value": "Brown",
+    "label": "Brown"
+  },
+  {
+    "value": "Burgundy",
+    "label": "Burgundy"
+  },
+  {
+    "value": "Gold",
+    "label": "Gold"
+  },
+  {
+    "value": "Gray",
+    "label": "Gray"
+  },
+  {
+    "value": "Green",
+    "label": "Green"
+  },
+  {
+    "value": "Orange",
+    "label": "Orange"
+  },
+  {
+    "value": "Purple",
+    "label": "Purple"
+  },
+  {
+    "value": "Red",
+    "label": "Red"
+  },
+  {
+    "value": "Silver",
+    "label": "Silver"
+  },
+  {
+    "value": "Tan",
+    "label": "Tan"
+  },
+  {
+    "value": "Teal",
+    "label": "Teal"
+  },
+  {
+    "value": "White",
+    "label": "White"
+  },
+  {
+    "value": "Yellow",
+    "label": "Yellow"
+  }
+]
