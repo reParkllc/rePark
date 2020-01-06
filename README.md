@@ -9,7 +9,3 @@
 
 ### FRONT-END MODULES
 *Auto Rotating Carousel:* The documentation is here: [documentation](https://mui.wertarbyte.com/#autorotatingcarousel)
-
-#### State Management Top => Down In React
-*Context Methods Are used:* Global States Are:
-- 
