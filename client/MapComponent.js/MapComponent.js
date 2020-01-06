@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'; // using React hooks
-import ReactMapGL, {Marker, Popup} from 'react-map-gl'; // using mapbox api
+import ReactMapGL, {Marker, Popup, GeolocateControl} from 'react-map-gl'; // using mapbox api
 
 import marker from './marker.png'; // image of map pin. Will need to find one with transparent background
 import { mongo } from 'mongoose';
@@ -45,6 +45,11 @@ const MapComponent = () => {
             setViewport(viewport);
           }} // this enables users to drag and move the map by setting viewport again whenever there's a change
         >
+          <GeolocateControl
+            positionOptions={{enableHighAccuracy: true}}
+            trackUserLocation={true}
+            showUserLocation={true}
+          />
           {mongoParkingSpots.map(park => ( // map the MongoDB array of parking spots
             <Marker // this JSX element is imported from MapBox that will mark different locations on the map
               key={park.user_ID} // each parking spot should have a unique key of who were in the spot
