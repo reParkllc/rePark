@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   Avatar,
-  Button, CssBaseline,
-  TextField, Link,
+  Button, CssBaseline, Link as LinkMatui,
   Grid, Box,
   Typography, Container
 } from '@material-ui/core';
@@ -11,6 +10,10 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import DriveEtaIcon from '@material-ui/icons/DriveEta';
 import Copyright from '../../components/Copyright';
+import CarMake from '../../components/SignUpDropDowns/CarMake';
+import CarModel from '../../components/SignUpDropDowns/CarModel';
+import CarColor from '../../components/SignUpDropDowns/CarColor';
+
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -39,6 +42,23 @@ const useStyles = makeStyles(theme => ({
 export default function SignUpSecondary() {
   const classes = useStyles();
 
+  const [carColor, setCarColor] = useState('');
+  const [carMake, setCarMake] = useState('');
+  const [carModel, setCarModel] = useState('');
+
+  const handleCarMakeChange = (e) => {
+    setCarModel('');
+    setCarColor('');
+    setCarMake(e.target.value);
+  }
+  const handleCarModelChange = (e) => {
+    setCarColor('');
+    setCarModel(e.target.value)
+  }
+  const handleCarColorChange = (e) => {
+    setCarColor(e.target.value);
+  }
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -51,40 +71,13 @@ export default function SignUpSecondary() {
         </Typography>
         <form className={classes.form} noValidate>
           <Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              required
-              fullWidth
-              className={classes.text}
-              id="carMake"
-              label="Make"
-              name="carMake"
-              autoComplete="car-make"
-            />
+            <CarMake fullWidth handleChange={handleCarMakeChange} carMake={carMake} />
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              required
-              fullWidth
-              className={classes.text}
-              id="carModel"
-              label="Model"
-              name="carModel"
-              autoComplete="car-model"
-            />
+            <CarModel fullWidth handleChange={handleCarModelChange} carModel={carModel} carMake={carMake} />
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              required
-              fullWidth
-              className={classes.text}
-              id="carColor"
-              label="Color"
-              name="carColor"
-              autoComplete="car-color"
-            />
+            <CarColor fullWidth handleChange={handleCarColorChange} carColor={carColor} />
           </Grid>
           <Button
             type="submit"
@@ -98,9 +91,9 @@ export default function SignUpSecondary() {
           </Button>
           <Grid container justify="center">
             <Grid item>
-              <Link href="#" variant="body2">
+              <LinkMatui href="#" variant="body2">
                 Already have an account? Sign in
-              </Link>
+              </LinkMatui>
             </Grid>
           </Grid>
         </form>
