@@ -5,13 +5,14 @@ import { CssBaseline } from '@material-ui/core';
 import { TextField } from '@material-ui/core';
 import { FormControlLabel } from '@material-ui/core';
 import { Checkbox } from '@material-ui/core';
-import { Link } from '@material-ui/core';
+import { Link as LinkMatui } from '@material-ui/core';
 import { Grid } from '@material-ui/core';
 import { Box } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Container } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -19,9 +20,9 @@ function Copyright() {
       {'Copyright © '}
       {new Date().getFullYear()}
       {', '}
-      <Link color="inherit" href="www.repark.io">
+      <LinkMatui color="inherit" href="www.repark.io">
         reParkLLC
-      </Link>{' '}
+      </LinkMatui>{' '}
     </Typography>
   );
 }
@@ -111,19 +112,21 @@ export default function SignUpInitial() {
               />
             </Grid>
           </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={(e) => e.preventDefault}
-          >
-            Sign Up
+          <Link to={`/signup2`}>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={(e) => e.preventDefault}
+            >
+              Sign Up
           </Button>
+          </Link>
           <Grid container justify="center">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link to={`/login`}>
                 Already have an account? Sign in
               </Link>
             </Grid>
