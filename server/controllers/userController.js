@@ -5,7 +5,6 @@ const userController = {
 
 //Create user controller
   createUser (req, res, next) {
-	console.log('req.body: ', req.body);
 	const { name, phone, pass } = req.body;
 	const newUser = {
 		name,

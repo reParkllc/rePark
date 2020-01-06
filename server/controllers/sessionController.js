@@ -17,7 +17,6 @@ const sessionController = {
     
     startSession(req, res, next){
         Session.create({cookieId: res.locals.user._id + 'a'}, (err, session) => {
-            console.log(session)
             if (session) {
                 return next();}
             if (err) {
