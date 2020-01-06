@@ -41,7 +41,7 @@ const App = () => {
         <Route
           path="/welcome"
           exact
-          component={RtOnboard}
+          component={RtOnboard}/>
       </Switch>
     </Router>
   )
