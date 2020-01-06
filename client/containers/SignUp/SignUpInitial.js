@@ -14,6 +14,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Container } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
+//TODO: Add form validation before user can move on to secondary sign up page
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
