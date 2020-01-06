@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Avatar } from '@material-ui/core';
 import { Button } from '@material-ui/core';
 import { CssBaseline } from '@material-ui/core';
@@ -13,21 +13,10 @@ import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Container } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import Copyright from '../../components/Copyright';
+import { UserContext } from '../../contexts/UserContext';
 
 //TODO: Add form validation before user can move on to secondary sign up page
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      {new Date().getFullYear()}
-      {', '}
-      <LinkMatui color="inherit" href="www.repark.io">
-        reParkLLC
-      </LinkMatui>{' '}
-    </Typography>
-  );
-}
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -54,9 +43,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SignUpInitial() {
+export default function SignUpInitial(props) {
   const classes = useStyles();
-
+  const { user, updateUser
+  } = useContext(UserContext);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  }
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -67,7 +60,7 @@ export default function SignUpInitial() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} method="POST" action="/signup" noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-
+import React, { useContext } from 'react';
+import { UserContext } from '../../contexts/UserContext';
 import {
   Avatar,
   Button, CssBaseline, Link as LinkMatui,
@@ -39,24 +39,54 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SignUpSecondary() {
+export default function SignUpSecondary(props) {
   const classes = useStyles();
+  const { user, updateUser } = useContext(UserContext);
 
-  const [carColor, setCarColor] = useState('');
-  const [carMake, setCarMake] = useState('');
-  const [carModel, setCarModel] = useState('');
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetch(`/signup2?userid=${user.id}`, {
+      method: 'POST',
+      body: JSON.stringify({
+        car: {
+          car_make: user.car.car_make,
+          car_model: user.car.car_model,
+          car_color: user.car.car_color,
+        }
+      }),
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then(res => res.json())
+      .then(() => {
+
+      })
+  }
 
   const handleCarMakeChange = (e) => {
-    setCarModel('');
-    setCarColor('');
-    setCarMake(e.target.value);
+    updateUser({
+      car: {
+        car_color: '',
+        car_model: '',
+        car_make: e.target.value
+      }
+    });
   }
   const handleCarModelChange = (e) => {
-    setCarColor('');
-    setCarModel(e.target.value)
+    updateUser({
+      car: {
+        ...user.car,
+        car_color: '',
+        car_model: e.target.value
+      }
+    });
   }
   const handleCarColorChange = (e) => {
-    setCarColor(e.target.value);
+    updateUser({
+      car: {
+        ...user.car,
+        car_color: e.target.value
+      }
+    });
   }
 
   return (
@@ -71,13 +101,13 @@ export default function SignUpSecondary() {
         </Typography>
         <form className={classes.form} noValidate>
           <Grid item xs={12}>
-            <CarMake fullWidth handleChange={handleCarMakeChange} carMake={carMake} />
+            <CarMake fullWidth handleChange={handleCarMakeChange} carMake={user.car.car_make} />
           </Grid>
           <Grid item xs={12}>
-            <CarModel fullWidth handleChange={handleCarModelChange} carModel={carModel} carMake={carMake} />
+            <CarModel fullWidth handleChange={handleCarModelChange} carMake={user.car.car_make} carModel={user.car.car_model} />
           </Grid>
           <Grid item xs={12}>
-            <CarColor fullWidth handleChange={handleCarColorChange} carColor={carColor} />
+            <CarColor fullWidth handleChange={handleCarColorChange} carColor={user.car.car_color} />
           </Grid>
           <Button
             type="submit"
@@ -85,7 +115,7 @@ export default function SignUpSecondary() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={(e) => e.preventDefault()}
+            onClick={handleSubmit}
           >
             Let's Park!
           </Button>
