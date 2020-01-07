@@ -16,7 +16,6 @@ const app = express();
 const PORT = 3000;
 
 //connect to mongoDB
-console.log('running server.js')
 mongoose
   .connect(db, {
     useNewUrlParser: true,

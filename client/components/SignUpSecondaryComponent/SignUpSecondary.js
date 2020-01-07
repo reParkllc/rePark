@@ -9,11 +9,11 @@ import {
 
 import { makeStyles } from '@material-ui/core/styles';
 import DriveEtaIcon from '@material-ui/icons/DriveEta';
-import Copyright from '../../components/Copyright';
-import CarMake from '../../components/SignUpDropDowns/CarMake';
-import CarModel from '../../components/SignUpDropDowns/CarModel';
-import CarColor from '../../components/SignUpDropDowns/CarColor';
-import { Link } from 'react-router-dom';
+import Copyright from '../CopyrightComponent/Copyright';
+import CarMake from '../SignUpDropDownComponents/CarMake';
+import CarModel from '../SignUpDropDownComponents/CarModel';
+import CarColor from '../SignUpDropDownComponents/CarColor';
+import { Link, useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -41,26 +41,37 @@ const useStyles = makeStyles(theme => ({
 
 export default function SignUpSecondary(props) {
   const classes = useStyles();
+
+  let history = useHistory();
   const { user, updateUser } = useContext(UserContext);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
-    fetch(`/signup2?userid=${user.id}`, {
-      method: 'POST',
+    fetch("/signup", {
+      method: "PUT",
       body: JSON.stringify({
         car: {
           car_make: user.car.car_make,
           car_model: user.car.car_model,
-          car_color: user.car.car_color,
+          car_color: user.car.car_color
         }
       }),
-      headers: { 'Content-Type': 'application/json' },
+      headers: { "Content-Type": "application/json" }
     })
       .then(res => res.json())
-      .then(() => {
-
+      .then(res => {
+        console.log("user response: ", res.successfulSignup);
+        if (res.successfulSignup === true) {
+          history.push("/main");
+        } // if user creation is successful, redirect signup2
+        else {
+          history.push("/signup"); // if user creation fails
+        }
       })
-  }
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   const handleCarMakeChange = (e) => {
     updateUser({

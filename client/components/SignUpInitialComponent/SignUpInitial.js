@@ -1,20 +1,24 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Avatar } from '@material-ui/core';
 import { Button } from '@material-ui/core';
 import { CssBaseline } from '@material-ui/core';
 import { TextField } from '@material-ui/core';
 import { FormControlLabel } from '@material-ui/core';
 import { Checkbox } from '@material-ui/core';
-import { Link as LinkMatui } from '@material-ui/core';
 import { Grid } from '@material-ui/core';
 import { Box } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Container } from '@material-ui/core';
-import { Link } from 'react-router-dom';
-import Copyright from '../../components/Copyright';
+import {
+  Link, Route,
+  useHistory,
+  useLocation
+} from 'react-router-dom';
+import Copyright from '../CopyrightComponent/Copyright';
 import { UserContext } from '../../contexts/UserContext';
+import MapComponent from '../MapComponent/MapComponent';
 
 //TODO: Add form validation before user can move on to secondary sign up page
 
@@ -45,10 +49,56 @@ const useStyles = makeStyles(theme => ({
 
 export default function SignUpInitial(props) {
   const classes = useStyles();
+  let history = useHistory();
+  let location = useLocation();
+
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [pass, setPass] = useState('');
+
   const { user, updateUser
   } = useContext(UserContext);
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    fetch('/signup', {
+      method: 'POST',
+      body: JSON.stringify({
+        name: name,
+        phone: phone,
+        pass: pass
+      }),
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then(res => res.json())
+      .then(res => {
+        console.log('user response: ', res)
+        updateUser({
+          id: res,
+          isLoggedIn: true,
+          name: name,
+          phone: phone
+        });
+        if (res) {
+          history.push('/signup2') 
+        }// if user creation is successful, redirect signup2
+        else {
+          history.push('/signup') // if user creation fails
+        }
+      })
+      .then()
+      .catch(err => {
+        console.log(err);
+      });
+  }
+  const handleNameChange = e => {
+    setName(e.target.value);
+  }
+  const handlePhoneChange = e => {
+    setPhone(e.target.value);
+  }
+  const handlePassChange = e => {
+    setPass(e.target.value);
   }
   return (
     <Container component="main" maxWidth="xs">
@@ -73,6 +123,8 @@ export default function SignUpInitial(props) {
                 id="name"
                 label="Name"
                 autoFocus
+                value={name}
+                onChange={handleNameChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -85,6 +137,8 @@ export default function SignUpInitial(props) {
                 label="Phone Number"
                 name="phoneNumber"
                 autoComplete="phoneNum"
+                value={phone}
+                onChange={handlePhoneChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -98,6 +152,8 @@ export default function SignUpInitial(props) {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                value={pass}
+                onChange={handlePassChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -114,7 +170,7 @@ export default function SignUpInitial(props) {
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick={(e) => e.preventDefault}
+              onClick={handleSubmit}
             >
               Sign Up
           </Button>
