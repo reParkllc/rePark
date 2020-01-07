@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,7 +11,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { Link } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
+import { UserContext } from '../../contexts/UserContext';
 //TODO: Don't have an account? Should route to LogIn.
 //TODO: Not handled Forgot Password?
 //TODO: After deciding on the design pattern change the avatar for Sign In.
@@ -40,15 +41,67 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+// let login = () => {
+//   fakeAuth.authenticate(() => {
+//     history.replace(from);
+//   });
+// };
+
 const LogInComponent = props => {
   const classes = useStyles();
+  const { user, updateUser } = useContext(UserContext);
+  const [phone, setPhone] = useState('');
+  const [pass, setPass] = useState('');
+
+  let history = useHistory();
+  let location = useLocation();
+  let { from } = location.state || { from: { pathname: "/" } };
+
+  const handlePassChange = e => {
+    setPass(e.target.value);
+  }
+  const handlePhoneNumberChange = e => {
+    setPhone(e.target.value);
+  }
+  const handleSubmit = e => {
+    e.preventDefault();
+    fetch("/login", {
+      method: "POST",
+      body: JSON.stringify({
+        phone: phone,
+        pass: pass
+      }),
+      headers: { "Content-Type": "application/json" }
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.auth === true) {
+          updateUser({
+            isLoggedIn: true
+          })
+          history.push("/main");
+        }
+        else {
+          history.push("/signup");
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  // const Auth = {
+  //   authenticate() {
+  //     user.isLoggedIn === false ?
+  //       history.replace(from);
+  //   },
+  //   signout(cb) {
+  //     fakeAuth.isAuthenticated = false;
+  //     setTimeout(cb, 100);
+  //   }
+  // };
+
   return (
-    // <React.Fragment>
-    //     <CssBaseline />
-    //     <Container maxWidth="sm">
-    //         <Typography component="div" style={{ backgroundColor: '#e7fce9', height: '100vh' }} />
-    //     </Container>
-    // </React.Fragment>
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
@@ -64,11 +117,13 @@ const LogInComponent = props => {
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
+            id="phoneNumber"
+            label="Phone Number"
+            name="phoneNumber"
+            autoComplete="phone-number"
             autoFocus
+            value={phone}
+            onChange={handlePhoneNumberChange}
           />
           <TextField
             variant="outlined"
@@ -80,6 +135,8 @@ const LogInComponent = props => {
             type="password"
             id="password"
             autoComplete="current-password"
+            value={pass}
+            onChange={handlePassChange}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
@@ -91,6 +148,7 @@ const LogInComponent = props => {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={handleSubmit}
           >
             Sign In
                     </Button>
