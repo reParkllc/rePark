@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from 'react'; // using React hooks
+import React, {useState, useEffect, useContext} from 'react'; // using React hooks
 import ReactMapGL, {Marker, Popup, GeolocateControl} from 'react-map-gl'; // using mapbox api
 import Geocoder from 'react-map-gl-geocoder'; // coverts user inputted address into coordinates
 import marker from './marker.png'; // image of map pin. Will need to find one with transparent background
-import { mongo } from 'mongoose';
+import { UserContext } from '../../../client/contexts/UserContext.js';
 
 // hardcoded 2 locations as pins. Will have to replace this with MongoDB Parking data
 const mongoParkingSpots = [{latitude: 33.985673, longitude: -118.455888, user_ID: 10000, user_name: 'Catherine', wait_time: '10'},
@@ -49,14 +49,54 @@ const MapComponent = () => {
   // markers array is the state variable that will be populated with each individual marker object
   const [markers, setMarkers] = React.useState([]);
 
+  const [shouldAddPin, setShouldAddPin] = React.useState(false);
+
+  const { user } = useContext(UserContext);
+
   // when the user clicks on the map, add the coordinates into the markers array
   const handleClick = ({ lngLat: [longitude, latitude], target }) => { // the parameter is the PointerEvent in react-map-gl
     console.log('target.className', target.className);
-    if (target.className !== 'mapboxgl-ctrl-geocoder--input') { // as long as the user is not clicking in the search box
+    if (target.className !== 'mapboxgl-ctrl-geocoder--input' && shouldAddPin) { // as long as the user is not clicking in the search box
       console.log(`clicked, longitude: ${longitude}, latitude: ${latitude}`);
       setMarkers(markers => [...markers, {latitude, longitude}]); // add a marker at the location
       console.log('markers: ', markers);
+      setShouldAddPin(shouldAddPin => !shouldAddPin);
+
+      // send the coordinates and user id to the backend
+      fetch('/api/parking', {
+        method: 'POST',
+        body: JSON.stringify({
+          longitude,
+          latitude,
+          user_id: user.id
+        }),
+        headers: { 'content-type': 'application/json', 'Accept': 'application/json'}
+      });
     }
+
+    // if the user clicks on the add pin button, toggle the state for shouldAddPin
+    if (target.id === 'add_pin') {
+      setShouldAddPin(shouldAddPin => !shouldAddPin);
+    }
+  };
+
+  const [events, setEvents] = React.useState({});
+
+  const logDragEvent = (name, event) => {
+    setEvents(events => { [...events, {[name]: lngLat}]});
+  };
+
+  const onMarkerDragStart = ({ lngLat: [lng, lat] }) => {
+    logDragEvent('onDragStart', event);
+  };
+
+  const onMarkerDrag = ({ lngLat: [lng, lat] }) => {
+    logDragEvent('onDrag', event);
+  };
+
+  const onMarkerDragEnd = ({ lngLat: [lng, lat] }) => {
+    logDragEvent('onDragEnd', event);
+    setMarkers(markers => [...markers, {latitude, longitude}]);
   };
 
   return (
@@ -73,6 +113,7 @@ const MapComponent = () => {
             setViewport(viewport);
           }} // this enables users to drag and move the map by setting viewport again whenever there's a change
         >
+
           <Geocoder // this is the address search box at the bottom left of the map
             mapRef={mapRef}
             onViewportChange={handleGeocoderViewportChange}
@@ -80,16 +121,22 @@ const MapComponent = () => {
             reverseGeocode={true}
             position={"bottom-left"}
           />
+
           <GeolocateControl // this asks the user if they allow sharing their location, if they do, the map automatically drops a blue dot at their current location
             positionOptions={{enableHighAccuracy: true}}
             trackUserLocation={true}
             showUserLocation={true}
           />
+
           {markers.map((park, i) => ( // map the array of parking spots
             <Marker // this JSX element is imported from MapBox that will mark different locations on the map
               key={i}
               latitude={park.latitude}
               longitude={park.longitude}
+              // draggable={true}
+              // onDragStart={onMarkerDragStart}
+              // onDrag={onMarkerDrag}
+              // onDragEnd={onMarkerDragEnd}
             >
               <button className="marker-btn" onClick={(e) => {
                 e.preventDefault();
@@ -133,6 +180,10 @@ const MapComponent = () => {
             </Popup>
           ) : null}
           
+          <button id="add_pin" style={{position: 'fixed', bottom: '80px', right: '50px', height: '40px', width: '80px'}}>
+            + Add pin
+          </button>
+
         </ReactMapGL>
       </div>
     </div>

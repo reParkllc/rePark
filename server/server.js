@@ -1,8 +1,8 @@
 const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
-const cookieParser = require('cookie-parser')
-
+const cookieParser = require('cookie-parser');
+const { User, Parking } = require('./models/userModels');
 
 //importing routers
 const login = require('./router/loginRouter.js');
@@ -78,6 +78,17 @@ app.get('/index', sessionController.isLoggedIn,
         (req, res) => {
           res.render('./../client/index.html', {});
         })
+
+app.post('/api/parking', (req, res) => {
+  const { longitude, latitude } = req.body;
+  const user_id = req.cookies.ssid;
+
+  Parking.create({spot: {
+    coordinate: [longitude, latitude],
+    available_time: new Date(Date.UTC(96, 1, 2, 3, 4, 5)).toUTCString(),
+    user_id: user_id
+  }});
+});
 
 // catch-all route handler for any requests to an unknown route
 app.use((req, res) => res.sendStatus(404));
