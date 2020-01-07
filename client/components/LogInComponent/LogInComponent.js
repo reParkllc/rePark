@@ -75,7 +75,6 @@ const LogInComponent = props => {
     })
       .then(res => res.json())
       .then(res => {
-        console.log("user response: ", res.auth);
         if (res.auth === true) {
           updateUser({
             isLoggedIn: true

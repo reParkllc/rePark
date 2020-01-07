@@ -30,17 +30,14 @@ const userController = {
   //verify user controller
   verifyUser(req, res, next) {
     const { phone, pass } = req.body;
-    console.log(req.body)
     User.findOne({ phone: phone })
       .exec()
       .then(userDoc => {
-        console.log(userDoc)
         if (!userDoc) {
           res.locals.auth = false;
           return next();
         }
         if (userDoc.pass === req.body.pass) {
-          console.log('userpass matches')
           res.locals.auth = true;
           return next();
         }
