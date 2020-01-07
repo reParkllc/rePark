@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'; // using React hooks
+import React, { useState, useEffect, useContext, useRef } from 'react'; // using React hooks
 import ReactMapGL, { Marker, Popup, GeolocateControl } from 'react-map-gl'; // using mapbox api
 import Geocoder from 'react-map-gl-geocoder'; // coverts user inputted address into coordinates
 import marker from './marker.png'; // image of map pin. Will need to find one with transparent background
@@ -10,6 +10,25 @@ const mongoParkingSpots = [{ latitude: 33.985673, longitude: -118.455888, user_I
 { latitude: 33.982185, longitude: -118.438087, user_ID: 10001, user_name: 'Amruth', wait_time: '15' }];
 
 const MapComponent = () => {
+  function useInterval(callback, delay) {
+    const savedCallback = useRef();
+
+    // Remember the latest callback.
+    useEffect(() => {
+      savedCallback.current = callback;
+    }, [callback]);
+
+    // Set up the interval.
+    useEffect(() => {
+      function tick() {
+        savedCallback.current();
+      }
+      if (delay !== null) {
+        let id = setInterval(tick, delay);
+        return () => clearInterval(id);
+      }
+    }, [delay]);
+  }
   // use React hooks to declare a state variable called viewport. This will be the entire map where the center is at [33.987909, -118.470693] in Los Angeles.
   const [viewport, setViewport] = useState({
     latitude: 33.987909,
@@ -37,22 +56,24 @@ const MapComponent = () => {
   }, []);
 
   //to retrieve other pins
-  // useEffect(() => {
-  // })
-
-  setInterval(() => {
+  useInterval(() => {
     fetch('/api/parking', {
       method: 'GET',
     })
       .then((res) => res.json())
       .then((pinLocations) => {
+        console.log(pinLocations)
         pinLocations.forEach((location) => {
           const latitude = location.spot.coordinate[1];
           const longitude = location.spot.coordinate[0];
           setMarkers(markers => [...markers, { latitude, longitude }]);
         })
       })
-  }, 2000)
+  }, 1000)
+
+  // setInterval(() => {
+
+  // }, 2000)
 
   // mapRef is needed for geocoder
   const mapRef = React.useRef();
@@ -127,7 +148,7 @@ const MapComponent = () => {
   };
 
   return (
-    <div style={{margin: '-2vw', textAlign: 'left'}}>
+    <div style={{ margin: '-2vw', textAlign: 'left' }}>
       <link href='map.css' type="text/css" rel='stylesheet' />
       <div id="mapbox">
         <ReactMapGL // ReactMapGL is the entire map element
@@ -199,15 +220,15 @@ const MapComponent = () => {
                 setSelectedPark(null); // set the state of selectedPark back to null
               }}
             >
-              <div style={{textAlign: 'left', width: '250px', height: '100px'}}>
+              <div style={{ textAlign: 'left', width: '250px', height: '100px' }}>
                 Who parked here: {selectedPark.user_name || user.name}<br />
                 Available today at: {time}<br />
                 Parking coordinates: {selectedPark.latitude}, {selectedPark.longitude}
               </div>
             </Popup>
           ) : null}
-         
-          <button id="add_pin" style={{position: 'absolute', bottom: '15vh', left: '4vw', height: '45px', width: '85px', borderRadius: '2vw', fontSize: '15px', background: '#2B7BF0', color: 'white'}}>
+
+          <button id="add_pin" style={{ position: 'absolute', bottom: '15vh', left: '4vw', height: '45px', width: '85px', borderRadius: '2vw', fontSize: '15px', background: '#2B7BF0', color: 'white' }}>
             + Add pin
           </button>
 

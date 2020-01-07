@@ -9,7 +9,7 @@ const cookieController = require('../controllers/cookieController');
 
 router.post('/', userController.verifyUser,
   (req, res) => {
-    res.status(200).json({ auth: res.locals.auth })
+    res.status(200).json({ id: res.locals.id, auth: res.locals.auth })
   });
 
 module.exports = router;
