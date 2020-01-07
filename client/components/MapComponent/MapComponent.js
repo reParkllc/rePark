@@ -188,7 +188,7 @@ const MapComponent = () => {
             </Popup>
           ) : null}
           
-          <button id="add_pin" style={{position: 'fixed', bottom: '80px', right: '50px', height: '40px', width: '80px'}}>
+          <button id="add_pin" style={{position: 'fixed', bottom: '15vw', left: '6.5vw', height: '40px', width: '80px', borderRadius: '1vw'}}>
             + Add pin
           </button>
 
