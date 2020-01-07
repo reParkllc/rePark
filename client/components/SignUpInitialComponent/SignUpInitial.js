@@ -72,19 +72,21 @@ export default function SignUpInitial(props) {
     })
       .then(res => res.json())
       .then(res => {
+        console.log('user response: ', res)
         updateUser({
-          id: res.id,
-          isLoggedin: true,
+          id: res,
+          isLoggedIn: true,
           name: name,
           phone: phone
         });
-        return (
-          <Route
-            path={`/main`}
-            render={() => <MapComponent />}
-          />
-        )
+        if (res) {
+          history.push('/signup2') 
+        }// if user creation is successful, redirect signup2
+        else {
+          history.push('/signup') // if user creation fails
+        }
       })
+      .then()
       .catch(err => {
         console.log(err);
       });
