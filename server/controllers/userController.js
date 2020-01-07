@@ -29,18 +29,20 @@ const userController = {
 
   //verify user controller
   verifyUser(req, res, next) {
-    const { name, pass } = req.body;
-    User.findOne({ name })
+    const { phone, pass } = req.body;
+    User.findOne({ phone: phone })
       .exec()
       .then(userDoc => {
-        if (userDoc.name === null) {
-          res.status(401).json({ err })
+        if (!userDoc) {
+          res.locals.auth = false;
           return next();
         }
         if (userDoc.pass === req.body.pass) {
-          res.locals.user = userDoc;
+          res.locals.auth = true;
           return next();
         }
+        res.locals.auth = false;
+        return next();
       })
       .catch(err => {
         res.status(401).json({ 'Error': err });
@@ -52,28 +54,28 @@ const userController = {
       });
   },
 
-  updateUserCar(req, res, next){
-	const { car_make, car_model, car_color } = req.body.car;
-	const { id } = req.body;
-	User.findOneAndUpdate({ _id: id }, 
+  updateUserCar(req, res, next) {
+    const { car_make, car_model, car_color } = req.body.car;
+    const { id } = req.body;
+    User.findOneAndUpdate({ _id: id },
       {
         car: {
-        car_make: car_make,
-        car_model: car_model,
-        car_color: car_color
-      }
-    },
+          car_make: car_make,
+          car_model: car_model,
+          car_color: car_color
+        }
+      },
       { new: true }, (err, updatedDoc) => {
         if (err) {
-        return next({
-          log: 'Express error handler caught car update error',
-          status: 400,
-          message: { err: 'An error occurred' },
-        });
+          return next({
+            log: 'Express error handler caught car update error',
+            status: 400,
+            message: { err: 'An error occurred' },
+          });
         };
         res.locals.successfulSignup = true;
         return next();
       })
-    }
+  }
 }
 module.exports = userController;
