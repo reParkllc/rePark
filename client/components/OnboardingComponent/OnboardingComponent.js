@@ -6,7 +6,9 @@ import { blue400, blue600 } from '@material-ui/core/colors/blue';
 import { red400, red600 } from '@material-ui/core/colors/red';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-
+import slide1 from './slide1.png'
+import slide2 from './slide2.png'
+import slide3 from './slide3.png'
 
 const OnboardingComponent = (props) => {
   const theme = useTheme();
@@ -23,25 +25,25 @@ const OnboardingComponent = (props) => {
         mobile={matches}
       >
         <Slide
-          media={<img src="http://www.icons101.com/icon_png/size_256/id_79394/youtube.png" />}
+          media={<img src={slide1} />}
           mediaBackgroundStyle={theme.palette.secondary}
           contentstyle={{ backgroundColor: red600 }}
-          title="This is a very cool feature"
-          subtitle="Just using this will blow your mind."
+          title="'rePark' helps you find parking nearby"
+          subtitle="Fast and easy."
         />
         <Slide
-          media={<img src="http://www.icons101.com/icon_png/size_256/id_80975/GoogleInbox.png" />}
+          media={<img src={slide2} />}
           mediaBackgroundStyle={{ backgroundColor: blue400 }}
           contentstyle={{ backgroundColor: blue600 }}
-          title="Ever wanted to be popular?"
-          subtitle="Well just mix two colors and your are good to go!"
+          title="Your time is valuable"
+          subtitle="'rePark' is the solution for you to save time looking for parking!"
         />
         <Slide
-          media={<img src="http://www.icons101.com/icon_png/size_256/id_76704/Google_Settings.png" />}
+          media={<img src={slide3} />}
           mediaBackgroundStyle={{ backgroundColor: green400 }}
           contentstyle={{ backgroundColor: green600 }}
-          title="May the force be with you"
-          subtitle="The Force is a metaphysical and ubiquitous power in the Star Wars universe."
+          title="Sign up Now!"
+          subtitle="And you will see a map of all available parking spots near you."
         />
       </AutoRotatingCarousel>
     </div >
