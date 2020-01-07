@@ -12,13 +12,12 @@ import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Container } from '@material-ui/core';
 import {
-  Link, Route,
+  Link,
   useHistory,
   useLocation
 } from 'react-router-dom';
 import Copyright from '../CopyrightComponent/Copyright';
 import { UserContext } from '../../contexts/UserContext';
-import MapComponent from '../MapComponent/MapComponent';
 
 //TODO: Add form validation before user can move on to secondary sign up page
 
@@ -72,7 +71,6 @@ export default function SignUpInitial(props) {
     })
       .then(res => res.json())
       .then(res => {
-        console.log('user response: ', res)
         updateUser({
           id: res,
           isLoggedIn: true,
@@ -80,8 +78,8 @@ export default function SignUpInitial(props) {
           phone: phone
         });
         if (res) {
-          history.push('/signup2') 
-        }// if user creation is successful, redirect signup2
+          history.push('/signup2') // if user creation is successful, redirect signup2
+        }
         else {
           history.push('/signup') // if user creation fails
         }

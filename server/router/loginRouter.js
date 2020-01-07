@@ -8,11 +8,8 @@ const cookieController = require('../controllers/cookieController');
 
 
 router.post('/', userController.verifyUser,
-						cookieController.setSSIDCookie,
-						sessionController.isLoggedIn,
-            sessionController.startSession,
-            (req, res) => {
-              return res.status(200).json({"message": "login Success..."})
-            });
+  (req, res) => {
+    res.status(200).json({ auth: res.locals.auth })
+  });
 
 module.exports = router;
