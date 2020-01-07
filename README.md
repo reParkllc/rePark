@@ -20,3 +20,4 @@
 11. Create a 'relinguish the spot' button to free up the spot for other takers
 12. Giver can see the live location of the taker while the person is driving toward the spot
 13. Use react native to make this product available on Android phones
+14. Enable users to change password upon 'Forgot password'
