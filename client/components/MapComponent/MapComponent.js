@@ -14,7 +14,7 @@ const MapComponent = () => {
     latitude: 33.987909,
     longitude: -118.470693,
     width: '90vw',
-    height: '90vh',
+    height: '80vh',
     zoom: 10
   });
 
