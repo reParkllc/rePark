@@ -49,13 +49,20 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-
+app.get('/api/parking', (req, res) => {
+  Parking.find({})
+    .exec()
+    .then((docs) => {
+      // console.log('docs:', docs)
+      res.status(200).json(docs)
+    });
+})
 /**
  * root
  */
 // respond with main app
 app.get('/*',
-  (req, res) => {res.status(200).sendFile(path.resolve(__dirname, '../client/index.html'))} );
+  (req, res) => { res.status(200).sendFile(path.resolve(__dirname, '../client/index.html')) });
 
 /**
  * sign up
@@ -75,19 +82,21 @@ app.use('/login', login);
  * Authorized routes
  */
 app.get('/index', sessionController.isLoggedIn,
-        (req, res) => {
-          res.render('./../client/index.html', {});
-        })
+  (req, res) => {
+    res.render('./../client/index.html', {});
+  })
 
 app.post('/api/parking', (req, res) => {
   const { longitude, latitude } = req.body;
   const user_id = req.cookies.ssid;
 
-  Parking.create({spot: {
-    coordinate: [longitude, latitude],
-    available_time: new Date(Date.UTC(96, 1, 2, 3, 4, 5)).toUTCString(),
-    user_id: user_id
-  }});
+  Parking.create({
+    spot: {
+      coordinate: [longitude, latitude],
+      available_time: new Date(Date.UTC(96, 1, 2, 3, 4, 5)).toUTCString(),
+      user_id: user_id
+    }
+  })
 });
 
 // catch-all route handler for any requests to an unknown route
