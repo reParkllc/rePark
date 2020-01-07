@@ -39,6 +39,7 @@ const userController = {
         }
         if (userDoc.pass === req.body.pass) {
           res.locals.auth = true;
+          res.locals.id = userDoc._id;
           return next();
         }
         res.locals.auth = false;
