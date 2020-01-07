@@ -50,6 +50,30 @@ const userController = {
           message: { err: 'An error occurred' },
         });
       });
-  }
+  },
+
+  updateUserCar(req, res, next){
+	const { car_make, car_model, car_color } = req.body.car;
+	const { id } = req.body;
+	User.findOneAndUpdate({ _id: id }, 
+      {
+        car: {
+        car_make: car_make,
+        car_model: car_model,
+        car_color: car_color
+      }
+    },
+      { new: true }, (err, updatedDoc) => {
+        if (err) {
+        return next({
+          log: 'Express error handler caught car update error',
+          status: 400,
+          message: { err: 'An error occurred' },
+        });
+        };
+        res.locals.successfulSignup = true;
+        return next();
+      })
+    }
 }
 module.exports = userController;
