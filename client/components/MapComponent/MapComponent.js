@@ -3,6 +3,7 @@ import ReactMapGL, { Marker, Popup, GeolocateControl } from 'react-map-gl'; // u
 import Geocoder from 'react-map-gl-geocoder'; // coverts user inputted address into coordinates
 import marker from './marker.png'; // image of map pin. Will need to find one with transparent background
 import { UserContext } from '../../../client/contexts/UserContext.js';
+import './map.css';
 
 // hardcoded 2 locations as pins. Will have to replace this with MongoDB Parking data
 const mongoParkingSpots = [{ latitude: 33.985673, longitude: -118.455888, user_ID: 10000, user_name: 'Catherine', wait_time: '10' },
@@ -13,8 +14,8 @@ const MapComponent = () => {
   const [viewport, setViewport] = useState({
     latitude: 33.987909,
     longitude: -118.470693,
-    width: '90vw',
-    height: '80vh',
+    width: '100vw',
+    height: '100vh',
     zoom: 10
   });
 
@@ -126,9 +127,9 @@ const MapComponent = () => {
   };
 
   return (
-    <div>
-      <link href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.css' rel='stylesheet' />
-      <div id="mapbox" style={{ margin: '5vw', textAlign: 'center' }}>
+    <div style={{margin: '-2vw', textAlign: 'left'}}>
+      <link href='map.css' type="text/css" rel='stylesheet' />
+      <div id="mapbox">
         <ReactMapGL // ReactMapGL is the entire map element
           onClick={handleClick} // add markers upon clicks
           ref={mapRef}
@@ -198,15 +199,15 @@ const MapComponent = () => {
                 setSelectedPark(null); // set the state of selectedPark back to null
               }}
             >
-              <div style={{ textAlign: 'left' }}>
-                Who parked here: {user.name}<br />
+              <div style={{textAlign: 'left', width: '250px', height: '100px'}}>
+                Who parked here: {selectedPark.user_name || user.name}<br />
                 Available today at: {time}<br />
                 Parking coordinates: {selectedPark.latitude}, {selectedPark.longitude}
               </div>
             </Popup>
           ) : null}
-
-          <button id="add_pin" style={{ position: 'fixed', bottom: '15vw', left: '6.5vw', height: '40px', width: '80px', borderRadius: '1vw' }}>
+         
+          <button id="add_pin" style={{position: 'absolute', bottom: '15vh', left: '4vw', height: '45px', width: '85px', borderRadius: '2vw', fontSize: '15px', background: '#2B7BF0', color: 'white'}}>
             + Add pin
           </button>
 
