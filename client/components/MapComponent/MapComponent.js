@@ -53,6 +53,8 @@ const MapComponent = () => {
 
   const { user } = useContext(UserContext);
 
+  const [time, setTime] = React.useState(new Date(Date.now()).toUTCString());
+
   // when the user clicks on the map, add the coordinates into the markers array
   const handleClick = ({ lngLat: [longitude, latitude], target }) => { // the parameter is the PointerEvent in react-map-gl
     console.log('target.className', target.className);
@@ -61,6 +63,12 @@ const MapComponent = () => {
       setMarkers(markers => [...markers, {latitude, longitude}]); // add a marker at the location
       console.log('markers: ', markers);
       setShouldAddPin(shouldAddPin => !shouldAddPin);
+
+      let utcDate = new Date(new Date().toUTCString());
+      let utcDateAdd10Min = new Date(utcDate.getTime() + 10*60000);
+      setTime(time => {
+        return utcDateAdd10Min.toLocaleTimeString('en-US'); // this will set time to be the current time + 10 minutes, format example: 5:20:08 PM
+      });
 
       // send the coordinates and user id to the backend
       fetch('/api/parking', {
@@ -173,8 +181,8 @@ const MapComponent = () => {
               }}
             >
               <div style={{textAlign: 'left'}}>
-                Who parked here: <br />
-                Available in: 5 minutes<br />
+                Who parked here: {user.name}<br />
+                Available today at: {time}<br />
                 Parking coordinates: {selectedPark.latitude}, {selectedPark.longitude}
               </div>
             </Popup>
